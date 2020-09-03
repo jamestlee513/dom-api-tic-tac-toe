@@ -7,6 +7,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
   let counter = 0;
   const squares = [];
+  let gameStatus = "in progress"
+
   for (let i = 0; i < 9; i++) {
     squares.push(null);
   }
@@ -69,3 +71,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
   }
 });
+
+function checkGameEnd(winner) {
+  board.childNodes.forEach(ele => {
+    ele.removeEventListener("click")
+  }
+}
