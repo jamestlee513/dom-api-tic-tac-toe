@@ -33,23 +33,39 @@ window.addEventListener("DOMContentLoaded", (event) => {
   });
 
   function checkGameStatus() {
-      for(let i = 0; i < 9; i+=3) {
-          if(squares[i] !== null && squares[i] === squares[i+1] && squares[i+1] === squares[i+2]) {
-              console.log(squares[i] + " wins!");
-          } 
-      }
-
-      for(let i = 0; i < 3; i++) {
-          if (squares[i] !== null && squares[i] === squares[i + 3] && squares[i + 3] === squares[i + 6]) {
-              console.log(squares[i] + " wins!");
-          }
-      }
-
-      if (squares[2] !== null && squares[2] === squares[4] && squares [4] === squares[6]) {
-          console.log(squares[2] + " wins!");
-      }
-      if (squares[0] !== null && squares[0] === squares[4] && squares [4] === squares[8]) {
-          console.log(squares[0] + " wins!");
+    for (let i = 0; i < 9; i += 3) {
+      if (
+        squares[i] !== null &&
+        squares[i] === squares[i + 1] &&
+        squares[i + 1] === squares[i + 2]
+      ) {
+        console.log(squares[i] + " wins!");
       }
     }
+
+    for (let i = 0; i < 3; i++) {
+      if (
+        squares[i] !== null &&
+        squares[i] === squares[i + 3] &&
+        squares[i + 3] === squares[i + 6]
+      ) {
+        console.log(squares[i] + " wins!");
+      }
+    }
+
+    if (
+      squares[2] !== null &&
+      squares[2] === squares[4] &&
+      squares[4] === squares[6]
+    ) {
+      console.log(squares[2] + " wins!");
+    }
+    if (
+      squares[0] !== null &&
+      squares[0] === squares[4] &&
+      squares[4] === squares[8]
+    ) {
+      console.log(squares[0] + " wins!");
+    }
+  }
 });
