@@ -6,26 +6,30 @@ window.addEventListener("DOMContentLoaded", (event) => {
     "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg";
 
   let counter = 0;
-  const rows = [];
-  const cols = [];
+  const squares = [];
+  for (let i = 0; i < 9; i++) {
+    squares.push(null);
+  }
 
   board.childNodes.forEach((ele) => {
     ele.addEventListener("click", (event) => {
       if (ele.childNodes.length === 0) {
         const marker = document.createElement("img");
+        const index = Number(ele.id[ele.id.length - 1]);
         if (counter % 2 === 0) {
           marker.setAttribute("src", xImg);
+          squares[index] = "x";
+          console.log(index);
         } else {
           marker.setAttribute("src", oImg);
+          squares[index] = "o";
         }
         counter++;
         ele.appendChild(marker);
+        console.log(squares);
       }
-
-      rows.push((ele.getAttribute("class").split(" ")[1]))
-      cols.push((ele.getAttribute("class").split(" ")[2]))
     });
-    console.log(rows, cols);
   });
-  
+
+  function checkGameStatus() {}
 });
