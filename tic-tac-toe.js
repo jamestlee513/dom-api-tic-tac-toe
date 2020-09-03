@@ -6,6 +6,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg";
 
   let counter = 0;
+  const rows = [];
+  const cols = [];
 
   board.childNodes.forEach((ele) => {
     ele.addEventListener("click", (event) => {
@@ -19,6 +21,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
         counter++;
         ele.appendChild(marker);
       }
+
+      rows.push((ele.getAttribute("class").split(" ")[1]))
+      cols.push((ele.getAttribute("class").split(" ")[2]))
     });
+    console.log(rows, cols);
   });
+  
 });
