@@ -10,12 +10,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
   const announcement = document.getElementById("game-status");
 
   let counter = 0;
-  const squares = [];
+  let squares = [];
   let isGameOver = false;
 
   for (let i = 0; i < 9; i++) {
     squares.push(null);
   }
+
+  loadGame();
 
   board.addEventListener("click", (event) => {
     const square = event.target;
@@ -32,6 +34,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
       counter++;
       square.appendChild(marker);
       checkGameStatus();
+      saveGame();
     }
   });
 
@@ -41,16 +44,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
   });
 
-  giveUpBtn.addEventListener("click", event => {
-    if(isGameOver === false) {
-      if(counter % 2 === 0) {
+  giveUpBtn.addEventListener("click", (event) => {
+    if (isGameOver === false) {
+      if (counter % 2 === 0) {
         announcement.innerText = "Winner: O";
       } else {
         announcement.innerText = "Winner: X";
       }
       isGameOver = true;
-    } 
-
+    }
   });
 
   function newGame() {
@@ -115,5 +117,25 @@ window.addEventListener("DOMContentLoaded", (event) => {
   function gameEnd(winner) {
     isGameOver = true;
     announcement.innerText = `Winner: ${winner}`;
+  }
+
+  function saveGame() {
+    const serialize = JSON.stringify(squares);
+    localStorage.setItem("saveState", serialize);
+  }
+
+  function loadGame() {
+    squares = JSON.parse(localStorage.getItem("saveState"));
+    board.childNodes.forEach((square, i) => {
+      if (squares[i] == "x") {
+        const marker = document.createElement("img");
+        marker.setAttribute("src", xImg);
+        square.appendChild(marker);
+      } else if (squares[i] === "o") {
+        const marker = document.createElement("img");
+        marker.setAttribute("src", oImg);
+        square.appendChild(marker);
+      }
+    });
   }
 });
