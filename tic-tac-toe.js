@@ -7,73 +7,80 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
   let counter = 0;
   const squares = [];
-  let gameStatus = "in progress"
+  let isGameOver = false
 
   for (let i = 0; i < 9; i++) {
     squares.push(null);
   }
 
-  board.childNodes.forEach((ele) => {
-    ele.addEventListener("click", (event) => {
-      if (ele.childNodes.length === 0) {
-        const marker = document.createElement("img");
-        const index = Number(ele.id[ele.id.length - 1]);
-        if (counter % 2 === 0) {
-          marker.setAttribute("src", xImg);
-          squares[index] = "x";
-          console.log(index);
-        } else {
-          marker.setAttribute("src", oImg);
-          squares[index] = "o";
-        }
-        counter++;
-        ele.appendChild(marker);
-        console.log(squares);
+  board.addEventListener("click", event => {
+    const square = event.target;
+    if (event.target.value === undefined && isGameOver === false) {
+      const marker = document.createElement("img");
+      const index = Number(square.id[square.id.length - 1]);
+      if (counter % 2 === 0) {
+        marker.setAttribute("src", xImg);
+        squares[index] = "x";
+      } else {
+        marker.setAttribute("src", oImg);
+        squares[index] = "o";
       }
+      counter++;
+      square.appendChild(marker);
       checkGameStatus();
-    });
+    }
   });
 
+
   function checkGameStatus() {
+    //Checks for a row victory
     for (let i = 0; i < 9; i += 3) {
       if (
         squares[i] !== null &&
         squares[i] === squares[i + 1] &&
         squares[i + 1] === squares[i + 2]
       ) {
-        console.log(squares[i] + " wins!");
+        gameEnd(squares[i])
       }
     }
-
+    //Checks for a column victory
     for (let i = 0; i < 3; i++) {
       if (
         squares[i] !== null &&
         squares[i] === squares[i + 3] &&
         squares[i + 3] === squares[i + 6]
       ) {
-        console.log(squares[i] + " wins!");
+        gameEnd(squares[i])
       }
     }
-
+    //Checks for either diagonal victories
     if (
       squares[2] !== null &&
       squares[2] === squares[4] &&
       squares[4] === squares[6]
     ) {
-      console.log(squares[2] + " wins!");
+      gameEnd(squares[2])
     }
     if (
       squares[0] !== null &&
       squares[0] === squares[4] &&
       squares[4] === squares[8]
     ) {
-      console.log(squares[0] + " wins!");
+      gameEnd(squares[0])
     }
-  }
-});
 
-function checkGameEnd(winner) {
-  board.childNodes.forEach(ele => {
-    ele.removeEventListener("click")
+    //Checks for a tie
+    if(counter > 8 && !isGameOver) {
+      gameEnd("none")
+    }
+
   }
-}
+
+  //winner could be "x", "o", "none"
+  function gameEnd(winner) {
+    isGameOver = true;
+    const announcement = document.getElementById("game-status");
+    announcement.innerText = `Winner: ${winner}`
+  }
+
+});
