@@ -4,16 +4,19 @@ window.addEventListener("DOMContentLoaded", (event) => {
     "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-x.svg";
   const oImg =
     "https://assets.aaonline.io/Module-DOM-API/formative-project-tic-tac-toe/player-o.svg";
+  const buttons = document.querySelectorAll("button");
+  const newGameBtn = buttons[0];
+  const giveUpBtn = buttons[1];
 
   let counter = 0;
   const squares = [];
-  let isGameOver = false
+  let isGameOver = false;
 
   for (let i = 0; i < 9; i++) {
     squares.push(null);
   }
 
-  board.addEventListener("click", event => {
+  board.addEventListener("click", (event) => {
     const square = event.target;
     if (event.target.value === undefined && isGameOver === false) {
       const marker = document.createElement("img");
@@ -31,6 +34,27 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
   });
 
+  newGameBtn.addEventListener("click", (event) => {
+    if (isGameOver === true) {
+      newGame();
+    }
+  });
+
+  function newGame() {
+    isGameOver = false;
+    const announcement = document.getElementById("game-status");
+    announcement.innerText = "";
+
+    for (let i = 0; i < 9; i++) {
+      squares[i] = null;
+    }
+
+    board.childNodes.forEach((square) => {
+      square.innerHTML = "";
+    });
+
+    counter = 0;
+  }
 
   function checkGameStatus() {
     //Checks for a row victory
@@ -40,7 +64,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         squares[i] === squares[i + 1] &&
         squares[i + 1] === squares[i + 2]
       ) {
-        gameEnd(squares[i])
+        gameEnd(squares[i]);
       }
     }
     //Checks for a column victory
@@ -50,7 +74,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         squares[i] === squares[i + 3] &&
         squares[i + 3] === squares[i + 6]
       ) {
-        gameEnd(squares[i])
+        gameEnd(squares[i]);
       }
     }
     //Checks for either diagonal victories
@@ -59,28 +83,26 @@ window.addEventListener("DOMContentLoaded", (event) => {
       squares[2] === squares[4] &&
       squares[4] === squares[6]
     ) {
-      gameEnd(squares[2])
+      gameEnd(squares[2]);
     }
     if (
       squares[0] !== null &&
       squares[0] === squares[4] &&
       squares[4] === squares[8]
     ) {
-      gameEnd(squares[0])
+      gameEnd(squares[0]);
     }
 
     //Checks for a tie
-    if(counter > 8 && !isGameOver) {
-      gameEnd("none")
+    if (counter > 8 && !isGameOver) {
+      gameEnd("none");
     }
-
   }
 
   //winner could be "x", "o", "none"
   function gameEnd(winner) {
     isGameOver = true;
     const announcement = document.getElementById("game-status");
-    announcement.innerText = `Winner: ${winner}`
+    announcement.innerText = `Winner: ${winner}`;
   }
-
 });
