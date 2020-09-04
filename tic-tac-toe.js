@@ -17,9 +17,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
     squares.push(null);
   }
 
-  if (localStorage.getItem("saveState") !== null) { 
-    loadGame(); 
-  };
+  if (localStorage.getItem("saveState") !== null) {
+    loadGame();
+  }
 
   board.addEventListener("click", (event) => {
     const square = event.target;
@@ -124,11 +124,14 @@ window.addEventListener("DOMContentLoaded", (event) => {
   function saveGame() {
     const serialize = JSON.stringify(squares);
     localStorage.setItem("saveState", serialize);
+    localStorage.setItem("count", counter);
+    localStorage.setItem("gameState", isGameOver);
+    localStorage.setItem("announcement", announcement.innerText);
   }
   function loadGame() {
     squares = JSON.parse(localStorage.getItem("saveState"));
-    for(let i = 0; i < board.children.length; i++) {
-      let square = board.children[i]
+    for (let i = 0; i < board.children.length; i++) {
+      let square = board.children[i];
       if (squares[i] == "x") {
         const marker = document.createElement("img");
         marker.setAttribute("src", xImg);
@@ -138,6 +141,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
         marker.setAttribute("src", oImg);
         square.appendChild(marker);
       }
-    };
+    }
+    counter = Number(localStorage.getItem("count"));
+    isGameOver = Boolean(localStorage.getItem("gameState"));
+    announcement.innerText = String(localStorage.getItem("announcement"));
   }
 });
