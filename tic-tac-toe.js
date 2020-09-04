@@ -7,6 +7,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
   const buttons = document.querySelectorAll("button");
   const newGameBtn = buttons[0];
   const giveUpBtn = buttons[1];
+  const announcement = document.getElementById("game-status");
 
   let counter = 0;
   const squares = [];
@@ -40,9 +41,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
     }
   });
 
+  giveUpBtn.addEventListener("click", event => {
+    if(isGameOver === false) {
+      if(counter % 2 === 0) {
+        announcement.innerText = "Winner: O";
+      } else {
+        announcement.innerText = "Winner: X";
+      }
+      isGameOver = true;
+    } 
+
+  });
+
   function newGame() {
     isGameOver = false;
-    const announcement = document.getElementById("game-status");
     announcement.innerText = "";
 
     for (let i = 0; i < 9; i++) {
@@ -102,7 +114,6 @@ window.addEventListener("DOMContentLoaded", (event) => {
   //winner could be "x", "o", "none"
   function gameEnd(winner) {
     isGameOver = true;
-    const announcement = document.getElementById("game-status");
     announcement.innerText = `Winner: ${winner}`;
   }
 });
